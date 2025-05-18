@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       if (filters.maxPrice) query.append('maxPrice', filters.maxPrice);
       if (filters.sellerId) query.append('sellerId', filters.sellerId);
 
-      const res = await axios.get(`/products/all?${query.toString()}`);
+      const res = await axios.get(`http://localhost:3000/products/all?${query.toString()}`);
       setProducts(res.data);
     } catch (err) {
       setError('Error al cargar productos');

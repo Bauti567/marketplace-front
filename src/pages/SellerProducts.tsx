@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import '../index.css'
 
 type Product = {
   _id?: string;
@@ -66,71 +67,66 @@ export default function SellerProducts() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Mis productos</h2>
+    <div className="max-w-6xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-lg">
+      <h2 className="text-3xl font-bold mb-6 text-blue-700 text-center">Gestión de productos</h2>
 
-      {error && <p className="text-red-600 mb-4">{error}</p>}
+      {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
 
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <input
-          name="name"
-          placeholder="Nombre"
-          value={form.name}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-3 py-2"
-        />
-        <input
-          name="sku"
-          placeholder="SKU"
-          value={form.sku}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-3 py-2"
-        />
-        <input
-          name="quantity"
-          type="number"
-          placeholder="Cantidad"
-          value={form.quantity}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-3 py-2"
-        />
-        <input
-          name="price"
-          type="number"
-          placeholder="Precio"
-          value={form.price}
-          onChange={handleChange}
-          className="border border-gray-300 rounded px-3 py-2"
-        />
+      <div className="bg-gray-50 border rounded-lg p-6 mb-6 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <input
+            name="name"
+            placeholder="Nombre"
+            value={form.name}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-blue-400"
+          />
+          <input
+            name="sku"
+            placeholder="SKU"
+            value={form.sku}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-blue-400"
+          />
+          <input
+            name="quantity"
+            type="number"
+            placeholder="Cantidad"
+            value={form.quantity}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-blue-400"
+          />
+          <input
+            name="price"
+            type="number"
+            placeholder="Precio"
+            value={form.price}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 focus:outline-blue-400"
+          />
+        </div>
+
+        <button
+          onClick={handleCreate}
+          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 w-full md:w-auto"
+        >
+          Agregar producto
+        </button>
       </div>
 
-      <button
-        onClick={handleCreate}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Agregar producto
-      </button>
-
-      <table className="w-full mt-6 border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Nombre</th>
-            <th className="border p-2">SKU</th>
-            <th className="border p-2">Cantidad</th>
-            <th className="border p-2">Precio</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((prod) => (
-            <tr key={prod._id}>
-              <td className="border p-2">{prod.name}</td>
-              <td className="border p-2">{prod.sku}</td>
-              <td className="border p-2">{prod.quantity}</td>
-              <td className="border p-2">${prod.price}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {products.map((prod) => (
+          <div
+            key={prod._id}
+            className="bg-white border border-gray-200 rounded-lg shadow p-4 transition hover:shadow-md"
+          >
+            <h3 className="text-lg font-semibold text-gray-800">{prod.name}</h3>
+            <p className="text-sm text-gray-500">SKU: {prod.sku}</p>
+            <p className="text-sm text-gray-500">Cantidad: {prod.quantity}</p>
+            <p className="text-sm text-gray-500">Precio: ${prod.price}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

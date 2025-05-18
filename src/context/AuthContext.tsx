@@ -3,8 +3,16 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 export const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  const [role, setRole] = useState<string | null>(localStorage.getItem('role'));
+  const [token, setToken] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedRole = localStorage.getItem('role');
+
+    if (storedToken) setToken(storedToken);
+    if (storedRole) setRole(storedRole);
+  }, []);
 
   const login = (token: string, role: string) => {
     localStorage.setItem('token', token);

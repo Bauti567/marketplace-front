@@ -1,41 +1,47 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import SellerProducts from './pages/SellerProducts';
+import BuyerSearch from './pages/BuyerSearch'; // 👈 este
 import AdminDashboard from './pages/AdminDashboard';
-import Navbar from './components/navbar';
-import { PrivateRoute } from './routes/PrivateRoute';
+import ProtectedRoute from './routes/PrivateRoute';
 import HomePage from './pages/HomePage';
+import Navbar from './components/navbar';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Navbar/>
-        <Routes>
-          <Route path='/' element={<HomePage/>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/seller"
-            element={
-              <PrivateRoute allowedRoles={['seller']}>
-                <SellerProducts />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute allowedRoles={['admin']}>
-                <AdminDashboard />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <BrowserRouter>
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/seller"
+          element={
+            <ProtectedRoute role="seller">
+              <SellerProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer"
+          element={
+            <ProtectedRoute role="buyer">
+              <BuyerSearch />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
